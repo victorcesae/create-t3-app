@@ -22,6 +22,7 @@ export const trpcInstaller: Installer = ({
     devMode: false,
   });
 
+  const usingBetterAuth = packages?.betterAuth.inUse;
   const usingAuth = packages?.nextAuth.inUse;
   const usingPrisma = packages?.prisma.inUse;
   const usingDrizzle = packages?.drizzle.inUse;
@@ -39,11 +40,15 @@ export const trpcInstaller: Installer = ({
   const trpcFile =
     usingAuth && usingDb
       ? "with-auth-db.ts"
-      : usingAuth
-        ? "with-auth.ts"
-        : usingDb
-          ? "with-db.ts"
-          : "base.ts";
+      : usingBetterAuth && usingDb
+        ? "with-better-auth-db.ts"
+        : usingAuth
+          ? "with-auth.ts"
+          : usingBetterAuth
+            ? "with-better-auth.ts"
+            : usingDb
+              ? "with-db.ts"
+              : "base.ts";
   const trpcSrc = path.join(
     extrasDir,
     "src/server/api",
@@ -56,11 +61,11 @@ export const trpcInstaller: Installer = ({
   const rootRouterDest = path.join(projectDir, "src/server/api/root.ts");
 
   const exampleRouterFile =
-    usingAuth && usingPrisma
+    (usingAuth || usingBetterAuth) && usingPrisma
       ? "with-auth-prisma.ts"
-      : usingAuth && usingDrizzle
+      : (usingAuth || usingBetterAuth) && usingDrizzle
         ? "with-auth-drizzle.ts"
-        : usingAuth
+        : usingAuth || usingBetterAuth
           ? "with-auth.ts"
           : usingPrisma
             ? "with-prisma.ts"

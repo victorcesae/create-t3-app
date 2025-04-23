@@ -1,3 +1,4 @@
+import { betterAuthInstaller } from "~/installers/betterAuth.js";
 import { envVariablesInstaller } from "~/installers/envVars.js";
 import { nextAuthInstaller } from "~/installers/nextAuth.js";
 import { prismaInstaller } from "~/installers/prisma.js";
@@ -13,6 +14,7 @@ import { dynamicEslintInstaller } from "./eslint.js";
 // Should increase extensibility in the future
 export const availablePackages = [
   "nextAuth",
+  "betterAuth",
   "prisma",
   "drizzle",
   "tailwind",
@@ -60,6 +62,10 @@ export const buildPkgInstallerMap = (
   nextAuth: {
     inUse: packages.includes("nextAuth"),
     installer: nextAuthInstaller,
+  },
+  betterAuth: {
+    inUse: packages.includes("betterAuth"),
+    installer: betterAuthInstaller,
   },
   prisma: {
     inUse: packages.includes("prisma"),

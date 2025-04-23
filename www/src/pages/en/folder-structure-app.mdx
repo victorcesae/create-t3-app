@@ -57,6 +57,13 @@ The `post.tsx` file is an example of a client component that calls a tRPC mutati
 The `[...nextauth]/route.ts` file is the NextAuth.js authentication slug route. It is used to handle authentication requests. See [NextAuth.js usage](usage/next-auth) for more information on NextAuth.js, and [Next.js Dynamic Routes Docs](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes) for info on catch-all/slug routes.
 
 </div>
+<div data-components="betterauth">
+
+#### `src/app/api/auth/[...all]/route.ts`
+
+The `[...all]/route.ts` file is the BtterAuth authentication slug route. It is used to handle authentication requests. See [BetterAuth usage](usage/better-auth) for more information on BetterAuth, and [Next.js Dynamic Routes Docs](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes) for info on catch-all/slug routes.
+
+</div>
 <div data-components="trpc">
 
 #### `src/app/api/trpc/[trpc]/route.ts`
@@ -76,6 +83,13 @@ The `server` folder is used to clearly separate code that is only used on the se
 #### `src/server/auth.ts`
 
 The main entrypoint for server-side authentication logic. Here, we setup the NextAuth.js [configuration options](usage/next-auth), perform [module augmentation](usage/next-auth#inclusion-of-userid-on-the-session) as well as provide some DX utilities for authentication such as retrieving the user's session on the server-side. See [NextAuth.js usage](usage/next-auth#usage-with-trpc) for more information.
+
+</div>
+<div data-components="betterauth+trpc">
+
+#### `src/server/auth.ts`
+
+The main entrypoint for server-side authentication logic. Here, we setup the BetterAuth [configuration options](usage/better-auth), provide some DX utilities for authentication such as retrieving the user's session on the server-side. See [BetterAuth usage](usage/better-auth#usage-with-trpc) for more information.
 
 </div>
 <div data-components="prisma">

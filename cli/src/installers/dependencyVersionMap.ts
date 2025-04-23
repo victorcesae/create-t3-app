@@ -3,6 +3,11 @@
  * This improves performance significantly over fetching it from the npm registry.
  */
 export const dependencyVersionMap = {
+  // BetterAuth
+  "better-auth": "^1.2.7",
+  "better-sqlite3": "^11.6.0",
+  "@types/better-sqlite3": "^7.6.12",
+  pg: "^8.13.1",
   // NextAuth.js
   "next-auth": "5.0.0-beta.25",
   "@auth/prisma-adapter": "^2.7.2",

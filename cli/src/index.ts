@@ -97,6 +97,34 @@ const main = async () => {
     await initializeGit(projectDir);
   }
 
+  // Run the cli to generate the schema files for drizzle/prisma
+  if (packages.includes("betterAuth")) {
+    const runners: Record<
+      "npm" | "pnpm" | "yarn" | "bun",
+      { runner: string; args: string[] }
+    > = {
+      npm: {
+        runner: "npx",
+        args: ["@better-auth/cli@latest", "generate"],
+      },
+      yarn: {
+        runner: "yarn",
+        args: ["dlx", "@better-auth/cli@latest", "generate"],
+      },
+      pnpm: {
+        runner: "pnpm",
+        args: ["dlx", "@better-auth/cli@latest", "generate"],
+      },
+      bun: {
+        runner: "bunx",
+        args: ["@better-auth/cli@latest", "generate"],
+      },
+    };
+
+    await execa(runners[pkgManager].runner, runners[pkgManager].args, {
+      cwd: projectDir,
+    });
+  }
   await logNextSteps({
     projectName: appDir,
     packages: usePackages,

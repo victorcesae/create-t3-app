@@ -34,6 +34,8 @@ interface CliFlags {
   /** @internal Used in CI. */
   nextAuth: boolean;
   /** @internal Used in CI. */
+  betterAuth: boolean;
+  /** @internal Used in CI. */
   appRouter: boolean;
   /** @internal Used in CI. */
   dbProvider: DatabaseProvider;
@@ -63,6 +65,7 @@ const defaultOptions: CliResults = {
     prisma: false,
     drizzle: false,
     nextAuth: false,
+    betterAuth: false,
     importAlias: "~/",
     appRouter: false,
     dbProvider: "sqlite",
@@ -113,6 +116,12 @@ export const runCli = async (): Promise<CliResults> => {
     .option(
       "--nextAuth [boolean]",
       "Experimental: Boolean value if we should install NextAuth.js. Must be used in conjunction with `--CI`.",
+      (value) => !!value && value !== "false"
+    )
+    /** @experimental Used for CI E2E tests. Used in conjunction with `--CI` to skip prompting. */
+    .option(
+      "--betterAuth [boolean]",
+      "Experimental: Boolean value if we should install BetterAuth. Must be used in conjunction with `--CI`.",
       (value) => !!value && value !== "false"
     )
     /** @experimental - Used for CI E2E tests. Used in conjunction with `--CI` to skip prompting. */
@@ -208,6 +217,14 @@ export const runCli = async (): Promise<CliResults> => {
       logger.warn("Incompatible combination Prisma + Drizzle. Exiting.");
       process.exit(0);
     }
+    if (cliResults.flags.nextAuth && cliResults.flags.betterAuth) {
+      logger.warn("Incompatible combination NextAuth + BetterAuth. Exiting.");
+      process.exit(0);
+    }
+    if (!cliResults.flags.appRouter && cliResults.flags.betterAuth) {
+      logger.warn("Incompatible combination NextAuth + Pages Router. Exiting.");
+      process.exit(0);
+    }
     if (cliResults.flags.biome && cliResults.flags.eslint) {
       logger.warn("Incompatible combination Biome + ESLint. Exiting.");
       process.exit(0);
@@ -286,6 +303,7 @@ export const runCli = async (): Promise<CliResults> => {
             options: [
               { value: "none", label: "None" },
               { value: "next-auth", label: "NextAuth.js" },
+              { value: "better-auth", label: "BetterAuth.js" },
               // Maybe later
               // { value: "clerk", label: "Clerk" },
             ],

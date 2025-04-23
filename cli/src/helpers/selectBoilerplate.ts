@@ -17,10 +17,15 @@ export const selectAppFile = ({
   const usingTw = packages.tailwind.inUse;
   const usingTRPC = packages.trpc.inUse;
   const usingNextAuth = packages.nextAuth.inUse;
+  const usingBetterAuth = packages.betterAuth.inUse;
 
   let appFile = "base.tsx";
   if (usingTRPC && usingTw && usingNextAuth) {
     appFile = "with-auth-trpc-tw.tsx";
+  } else if (usingTRPC && usingTw && usingBetterAuth) {
+    appFile = "with-better-auth-trpc-tw.tsx";
+  } else if (usingTRPC && !usingTw && usingBetterAuth) {
+    appFile = "with-better-auth-trpc.tsx";
   } else if (usingTRPC && !usingTw && usingNextAuth) {
     appFile = "with-auth-trpc.tsx";
   } else if (usingTRPC && usingTw) {
